@@ -1,0 +1,13 @@
+{
+    "longitudeMin": -5.4,
+    "longitudeMax": 10.1,
+    "latitudeMin": 41.0,
+    "latitudeMax": 51.5,
+
+    "pathDonneesSignalements": "PATH_A_REMPLIR/donnees_signalement.csv",
+    "delimiteurDonneesSignalements": ";",
+
+    "pathModele": "PATH_A_REMPLIR/",
+
+    "pathCartes": "PATH_A_REMPLIR/"
+}
