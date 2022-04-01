@@ -4,8 +4,13 @@
     "latitudeMin": 41.0,
     "latitudeMax": 51.5,
 
-    "pathDonneesSignalements": "PATH_A_REMPLIR/donnees_signalement.csv",
+    "pathDonneesSignalements": "PATH_A_REMPLIR/donnees/donnees_signalement.csv",
     "delimiteurDonneesSignalements": ";",
+
+    "pathDonneesRegions": "PATH_A_REMPLIR/donnees/donnees_regions.csv",
+    "delimiteurDonneesRegions": ";",
+
+    "pathDonneesLyme": "PATH_A_REMPLIR/donnees/donnees_lyme.json",
 
     "pathModele": "PATH_A_REMPLIR/",
 

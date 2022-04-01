@@ -1,7 +1,7 @@
 """Fichier principal pour les predictions.
 
 Ce module sert a creer des modeles de predictions de signalements et des
-cartes pour comparer les predictions aux signalements reellement recus.
+cartes pour comparer les predictions au signalements rellement recus.
 
 Remplissez la partie "PARAMETRES" puis executez le fichier pour creer des
 modeles et des cartes.
@@ -16,7 +16,7 @@ cotes des divisions (qui sont des carres).
 """
 
 
-from predictions import make_model, predict
+from scripts.predictions import make_model, predict
 
 
 ##################
@@ -26,7 +26,8 @@ from predictions import make_model, predict
 ## Que faire ?
 
 creer_un_modele = False
-creer_des_cartes = True
+creer_des_cartes = False
+utiliser_lyme = False
 
 
 ## Carte
@@ -38,37 +39,42 @@ pixels_par_divion = 4
 
 ## Dates d'entrainement
 
-annee_debut_entrainement = 17
 mois_debut_entrainement = 4
-annee_fin_entrainement = 20
+annee_debut_entrainement = 17
 mois_fin_entrainement = 10
+annee_fin_entrainement = 20
 
 
 ## Dates de test
 
-annee_debut_test = 18
 mois_debut_test = 11
-annee_fin_test = 21
+annee_debut_test = 20
 mois_fin_test = 10
+annee_fin_test = 21
 
 
-# Regroupement par periodes
+## Regroupement par periodes
 
-nombre_mois_par_periode = 3
-
-
-# Nom des fichiers
-
-nom_modele = 'model75'
-
-nom_image = 'img75'
+nombre_mois_par_periode = 1
 
 
-##################
+## Nom des fichiers
 
+nom_modele = (f'model({mois_debut_entrainement:0>2}-{annee_debut_entrainement}'
+              +f'->{mois_fin_entrainement:0>2}-{annee_fin_entrainement})')
+
+nom_image = (f'pred({mois_debut_entrainement:0>2}-{annee_debut_entrainement}'
+             +f'->{mois_fin_entrainement:0>2}-{annee_fin_entrainement})'
+             +f'_test({mois_debut_test:0>2}-{annee_debut_test}'
+             +f'->{mois_fin_test:0>2}-{annee_fin_test})')
+
+
+
+###############################################
+##  EXECUTION - NE RIEN MODIFIER CI-DESSOUS  ##
+###############################################
 
 if __name__ == '__main__':
-
     map_info = (nombre_divisions_latitude,
                 nombre_divisions_longitude,
                 pixels_par_divion)
@@ -80,10 +86,16 @@ if __name__ == '__main__':
                    (annee_fin_test, mois_fin_test))
 
     if creer_un_modele:
-        make_model(map_info, dates_train, nom_modele)
+        make_model(map_info, dates_train, nom_modele, utiliser_lyme)
 
     if creer_des_cartes:
-        r2_score = predict(map_info, dates_test,
-                           nombre_mois_par_periode, nom_image, nom_modele)
-        print(f'Score R\u00B2 des pr\u00E9disctions : {r2_score}')
-
+        r2_score, r2_score_li = predict(
+            map_info, dates_test, nombre_mois_par_periode, nom_image,
+            nom_modele, utiliser_lyme)
+        
+        score_li = ''
+        for date, score in r2_score_li:
+            score_li += f'\n\u2000 {date[1]:0>2}/20{date[0]} : {score}'
+        
+        print(f'Score R\u00B2 global des pr\u00E9dictions : {r2_score}\n'
+              f'Score R\u00B2 par p\u00E9riode :{score_li}')
